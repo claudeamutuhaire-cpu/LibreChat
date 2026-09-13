@@ -1,5 +1,14 @@
 version: 1.1.4
 cache: true
+
+webSearch:
+  searchProvider: "tavily"
+  scraperProvider: "tavily"
+  rerankerType: "none"
+  tavilyApiKey: "${TAVILY_API_KEY}"
+  scraperTimeout: 7500
+  safeSearch: 1
+
 endpoints:
   custom:
     - name: "Groq"
