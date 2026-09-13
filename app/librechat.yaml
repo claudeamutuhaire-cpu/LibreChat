@@ -1,0 +1,16 @@
+version: 1.1.4
+cache: true
+endpoints:
+  custom:
+    - name: "Groq"
+      apiKey: "${GROQ_API_KEY}"
+      baseURL: "https://api.groq.com/openai/v1/"
+      models:
+        default: [
+          "openai/gpt-oss-20b",
+          "openai/gpt-oss-120b"
+        ]
+        fetch: false
+      titleConvo: true
+      titleModel: "openai/gpt-oss-20b"
+      modelDisplayLabel: "Groq"
