@@ -2,6 +2,7 @@ export * from './app';
 export * from './acl/accessControlService';
 export * from './acl/insightsPermissions';
 export * from './acl/middleware';
+export * from './acl/principals';
 export * from './credentials';
 /* Artifacts */
 export * from './artifacts';
@@ -33,6 +34,7 @@ export * from './mcp/authorization';
 export * from './mcp/authorizationRetry';
 export * from './mcp/assistants';
 export * from './mcp/request';
+export * from './mcp/reinitialize';
 export * from './mcp/icons';
 /* Utilities */
 export * from './mcp/utils';

@@ -3,7 +3,8 @@ import { publishMCPAuthorizationMutation } from './catalog/recovery';
 
 export interface MCPAuthorizationPublicationDeps {
   invalidateRecoveryGeneration: (scope: MCPRecoveryGenerationScope) => Promise<unknown>;
-  clearLocalRecovery?: (userId: string, serverName: string) => void;
+  /** Receives the generation the publication wrote, when it reports one. */
+  clearLocalRecovery?: (userId: string, serverName: string, generation?: string) => void;
   persistPublicationRetry?: (scope: MCPRecoveryGenerationScope) => Promise<string>;
   clearPublicationRetry?: (scope: MCPRecoveryGenerationScope, version: string) => Promise<void>;
   retryDelaysMs?: readonly number[];
@@ -134,11 +135,14 @@ export interface PersistMCPAuthorizationTransactionDeps<TTokens>
   inactiveServerError: () => Error;
 }
 
-/** Writes a durable intent now and returns the exact publication that clears only that intent. */
+/**
+ * Writes a durable intent now and returns the exact publication that clears only that intent.
+ * The publication reports the generation it wrote so its own caller can adopt it.
+ */
 export async function prepareMCPAuthorizationMutation(
   scope: MCPRecoveryGenerationScope,
   deps: MCPAuthorizationPublicationDeps,
-): Promise<() => Promise<void>> {
+): Promise<() => Promise<string | undefined>> {
   const publicationRetryVersion = await deps.persistPublicationRetry?.(scope);
   return () =>
     publishMCPAuthorizationMutation(scope, {
